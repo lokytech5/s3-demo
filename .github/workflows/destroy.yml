@@ -18,7 +18,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::061039798341:role/github-actions-plugfolio-role
           aws-region: us-east-1
-          role-session-name: GitHubActionsDestroy
+          role-session-name: GitHubActionsPlugfolio
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
