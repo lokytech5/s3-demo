@@ -11,6 +11,7 @@ terraform {
 
   }
 }
+#new comment
 
 resource "aws_s3_bucket" "demo" {
   bucket        = "tf-s3-demo${random_id.suffix.hex}"
