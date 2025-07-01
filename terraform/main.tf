@@ -12,7 +12,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "demo" {
-  bucket        = "tf-s3-demo-${random_id.suffix.hex}"
+  bucket        = "tf-s3-d-${random_id.suffix.hex}"
   force_destroy = true
 }
 
