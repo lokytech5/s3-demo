@@ -36,11 +36,11 @@ jobs:
         working-directory: ./terraform
         run: |
           terraform init \
-            -backend-config="bucket=plugfolio-terraform-state" \
+            -backend-config="bucket=tf-s3-demo-state" \
             -backend-config="key=dev/terraform.tfstate" \
             -backend-config="region=us-east-1" \
             -backend-config="encrypt=true" \
-            -backend-config="dynamodb_table=plugfolio-terraform-locks"
+            -backend-config="dynamodb_table=tf-s3-demo-locks"
 
       - name: Terraform Destroy Plan
         working-directory: ./terraform
