@@ -11,29 +11,30 @@ jobs:
   destroy:
     if: ${{ github.event.inputs.confirm == 'destroy' }}
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: read
+    defaults:
+      run:
+        working-directory: ./terraform
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.0
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::061039798341:role/github-actions-plugfolio-role
           aws-region: us-east-1
           role-session-name: GitHubActionsDestroy
 
       - name: Terraform Init
-        working-directory: ./terraform
         run: |
           terraform init \
             -backend-config="bucket=tf-s3-demo-state" \
@@ -43,9 +44,7 @@ jobs:
             -backend-config="dynamodb_table=tf-s3-demo-locks"
 
       - name: Terraform Destroy Plan
-        working-directory: ./terraform
         run: terraform plan -destroy -out=tfplan
 
       - name: Terraform Destroy Apply
-        working-directory: ./terraform
         run: terraform apply -auto-approve tfplan
