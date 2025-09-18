@@ -12,7 +12,8 @@ terraform {
   }
 }
 
-data "aws_lambda_role" "lambda_role" {
+# Fetch an existing role
+data "aws_iam_role" "lambda_role" {
   name = "lambda-fancout-shared-role"
 }
 
