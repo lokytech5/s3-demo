@@ -12,11 +12,6 @@ terraform {
   }
 }
 
-# Fetch an existing role
-data "aws_iam_role" "lambda_role" {
-  name = "lambda-fancout-shared-role"
-}
-
 resource "aws_s3_bucket" "demo" {
   bucket        = "tf-s3-demo${random_id.suffix.hex}"
   force_destroy = true
