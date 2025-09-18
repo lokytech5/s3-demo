@@ -11,7 +11,10 @@ terraform {
 
   }
 }
-#new comment
+
+data "aws_lambda_role" "lambda_role" {
+  name = "lambda-fancout-shared-role"
+}
 
 resource "aws_s3_bucket" "demo" {
   bucket        = "tf-s3-demo${random_id.suffix.hex}"
@@ -29,5 +32,15 @@ resource "aws_ecr_repository" "plugfolio_repo" {
   tags = {
     Name = "PlugfolioECRRepo"
   }
+}
 
+data "aws_caller_identity" "current" {}
+
+resource "aws_lambda_function" "hello_lambda" {
+  function_name    = "lambda_function"
+  role             = data.aws_iam_role.lambda_role.arn
+  handler          = "lambda_function.handler"
+  runtime          = "python3.13"
+  filename         = "${path.module}/../lambda/lambda_function.zip"
+  source_code_hash = filebase64sha256("${path.module}/../lambda/lambda_function.zip")
 }
